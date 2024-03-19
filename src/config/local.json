@@ -3,5 +3,8 @@
     "name": "linkpic-admin",
     "password": "agbGJD1c8TcepmuE",
     "appName": "Cluster-1"
+  },
+  "server": {
+    "port": 3000
   }
 }
