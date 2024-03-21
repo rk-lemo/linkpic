@@ -1,7 +1,6 @@
 import {Mongoose} from 'mongoose';
 import express from 'express';
 import * as awilix from 'awilix';
-import config from 'config';
 import pinoHttp from 'pino-http';
 
 import Connection from './db/connection';
@@ -9,6 +8,7 @@ import Root from './controllers/Root';
 import MakeShort from './controllers/MakeShort';
 import {wrap} from './util/RequestWrapper';
 import Logger from './util/Logger';
+import {ConfigInstance} from './config/config';
 
 export default class App {
     private dbConnection: Mongoose | null = null;
@@ -17,6 +17,12 @@ export default class App {
         injectionMode: awilix.InjectionMode.CLASSIC,
         strict: true
     });
+
+    get application(): express.Express | null {
+        return this.app;
+    }
+
+    constructor(private isNeedInitServer = true) {}
 
     /**
      * @description Initialize the app and start the server
@@ -38,12 +44,14 @@ export default class App {
      * @returns {void}
      */
     initServer(): void {
-        this.app = express();
-        this.app.use(pinoHttp());
-        this.app.use(this.initRouter())
-        this.app.listen(config.get('server.port'), () => {
-            Logger.log(`Server is running on port ${config.get('server.port')}`);
-        })
+        if (this.isNeedInitServer){
+            this.app = express();
+            this.app.use(pinoHttp());
+            this.app.use(this.initRouter())
+            this.app.listen(ConfigInstance.setting?.server.port, () => {
+                Logger.log(`Server is running on port ${ConfigInstance.setting?.server.port}`);
+            })
+        }
     }
 
     /**
