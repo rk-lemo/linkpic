@@ -2,11 +2,13 @@ import {Mongoose} from 'mongoose';
 import express from 'express';
 import * as awilix from 'awilix';
 import config from 'config';
+import pinoHttp from 'pino-http';
 
 import Connection from './db/connection';
 import Root from './controllers/Root';
 import MakeShort from './controllers/MakeShort';
 import {wrap} from './util/RequestWrapper';
+import Logger from './util/Logger';
 
 export default class App {
     private dbConnection: Mongoose | null = null;
@@ -37,9 +39,10 @@ export default class App {
      */
     initServer(): void {
         this.app = express();
+        this.app.use(pinoHttp());
         this.app.use(this.initRouter())
         this.app.listen(config.get('server.port'), () => {
-            console.log(`Server is running on port ${config.get('server.port')}`);
+            Logger.log(`Server is running on port ${config.get('server.port')}`);
         })
     }
 
@@ -83,7 +86,6 @@ export default class App {
         if (this.dbConnection) {
             this.dbConnection.connection?.close(true);
         }
-        console.log(signal);
-        console.error(error);
+        Logger.error(signal, error);
     }
 }
