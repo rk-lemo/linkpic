@@ -1,17 +1,20 @@
 import * as mongoose from 'mongoose';
-import config from 'config';
+import Logger from '../util/Logger';
+import {ConfigInstance} from '../config/config';
 
-const uri = `mongodb+srv://${config.get('db.name')}:${config.get('db.password')}@cluster-1.mmwy3cj.mongodb.net/?retryWrites=true&w=majority&appName=${config.get('db.appName')}`;
+const uri = `mongodb+srv://${ConfigInstance.setting?.db.name}:${ConfigInstance.setting?.db.password}@cluster-1.mmwy3cj.mongodb.net/?retryWrites=true&w=majority&appName=${ConfigInstance.setting?.db.appName}`;
 
 export default class Connection {
 
     async connect(): Promise<mongoose.Mongoose> {
         try {
             const connection = await mongoose.connect(uri);
-            console.log('Connected to the database');
+            Logger.info('Connected to the database');
             return connection
-        } finally {
+        } catch (e) {
+            Logger.error('Disconnected from the database');
             await mongoose?.connection?.close();
+            throw e;
         }
     }
 }
