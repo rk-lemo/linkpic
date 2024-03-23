@@ -1,4 +1,5 @@
 import {TDomain, THash, TOriginalUrl, TPath, TProtocol, TQuery} from '../types/link';
+import Logger from "../util/Logger";
 
 export default class Link {
     private _protocol: TProtocol | undefined;
@@ -41,6 +42,7 @@ export default class Link {
             throw new Error('Original URL is not set');
         }
         const url = new URL(this._originalUrl);
+
         this._protocol = url.protocol;
         this._domain = url.hostname;
         this._path = url.pathname;
@@ -48,9 +50,18 @@ export default class Link {
         this._hash = url.hash;
     }
 
+
+
     //TODO implement method to generate a short link Id based on base62 @kcfz
     //use this. state to get everything you need to generate the short link
     makeShort(): string {
+        const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            const rng = Math.floor(Math.random() * charset.length)
+            result += charset[rng];
+        }
         return 'shortLink';
     }
 }
+

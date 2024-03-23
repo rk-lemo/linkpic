@@ -25,3 +25,18 @@ class IdGenerator {
         return ''
     }
 }
+
+const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+function makeShort(length) {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        result += charset[randomIndex];
+    }
+    return result;
+}
+
+// Приклад використання
+const url = "https://example.com/page/123";
+const shortUrl = makeShort(6);
