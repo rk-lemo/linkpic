@@ -46,8 +46,8 @@ export default class Link {
         this._protocol = url.protocol;
         this._domain = url.hostname;
         this._path = url.pathname;
-        this._query = url.search;
-        this._hash = url.hash;
+        this._query = url.search || null;
+        this._hash = url.hash || null;
     }
 
 
