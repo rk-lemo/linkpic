@@ -36,7 +36,3 @@ function makeShort(length) {
     }
     return result;
 }
-
-// Приклад використання
-const url = "https://example.com/page/123";
-const shortUrl = makeShort(6);
