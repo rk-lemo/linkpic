@@ -1,5 +1,4 @@
 import {TDomain, THash, TOriginalUrl, TPath, TProtocol, TQuery} from '../types/link';
-import Logger from "../util/Logger";
 
 export default class Link {
     private _protocol: TProtocol | undefined;

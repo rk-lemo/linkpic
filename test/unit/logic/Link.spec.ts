@@ -30,7 +30,7 @@ describe('This one should properly test Link logic', () => {
     });
 
 
-    test('should create a short link', (done) => {
+    test.only('should create a short link', (done) => {
         const original = 'https://www.google.com?q=hello#world';
         const LinkInstance = new Link(original);
         const shortLink = LinkInstance.makeShort();

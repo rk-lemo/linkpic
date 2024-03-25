@@ -1,3 +1,3 @@
-import {LinkStorage} from './LinkStorage';
+import {LinkStorageModel} from './LinkStorage';
 
-export {LinkStorage}
+export {LinkStorageModel}
