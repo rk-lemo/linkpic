@@ -29,12 +29,23 @@ describe('This one should properly test Link logic', () => {
         });
     });
 
-
+describe('It should check short link method', () => {
     test('should create a short link', (done) => {
         const original = 'https://www.google.com?q=hello#world';
         const LinkInstance = new Link(original);
-        const shortLink = LinkInstance.makeShort();
-        expect(shortLink).toBe('shortLink');
+        const shortLink = LinkInstance.makeShort(7);
+        expect(shortLink.length).toBe(7);
+        expect(shortLink).not.toBe(undefined);
         done();
     });
+    test('it should check behaviour when 0 is the argument', (done) => {
+        const original = 'https://www.google.com?q=hello#world';
+        const LinkInstance = new Link(original);
+        // const shortLink = LinkInstance.makeShort(0);
+        expect(() => {return LinkInstance.makeShort(0)}).toThrow(Error);
+        expect(() => {return LinkInstance.makeShort(0)}).toThrow(Error);
+        done();
+    })
+})
+
 });

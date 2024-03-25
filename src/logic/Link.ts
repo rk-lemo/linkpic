@@ -54,14 +54,15 @@ export default class Link {
 
     //TODO implement method to generate a short link Id based on base62 @kcfz
     //use this. state to get everything you need to generate the short link
-    makeShort(): string {
+    makeShort(length: number): string | Error {
+        if(length === 0) throw new Error('Cannot transform empty link');
         const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         let result = '';
         for (let i = 0; i < length; i++) {
             const rng = Math.floor(Math.random() * charset.length)
             result += charset[rng];
         }
-        return 'shortLink';
+        return result;
     }
 }
 
