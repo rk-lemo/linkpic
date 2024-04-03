@@ -33,7 +33,7 @@ describe('It should check short link method', () => {
     test('should create a short link', (done) => {
         const original = 'https://www.google.com?q=hello#world';
         const LinkInstance = new Link(original);
-        const shortLink = LinkInstance.makeShort(7);
+        const shortLink = <string>LinkInstance.makeShort(7);
         expect(shortLink.length).toBe(7);
         expect(shortLink).not.toBe(undefined);
         done();

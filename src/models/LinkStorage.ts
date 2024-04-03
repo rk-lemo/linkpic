@@ -1,5 +1,6 @@
 import {model, Schema} from 'mongoose';
 import {ILink} from '../types/interfaces/db/ILinkStorage';
+import {IModel} from '../types/interfaces/db/IModel';
 
 export const LinkStorage = new Schema<ILink>({
     ip: {type: String, required: false},
@@ -17,7 +18,7 @@ export const LinkStorage = new Schema<ILink>({
     }
 });
 
-export class LinkStorageModel {
+export class LinkStorageModel implements IModel {
     private linkModel = model<ILink>('Link', LinkStorage);
 
     /**
@@ -25,11 +26,12 @@ export class LinkStorageModel {
      * @param data {ILink}
      * @returns {Promise<Partial<ILink>>}
      */
-    async save(data: ILink): Promise<Partial<ILink>> {
+    async save<ILink>(data: ILink): Promise<Partial<any>> {
         try {
             const link = new this.linkModel(data)
-            return link.save();
-        } catch (error){
+            const savedResult = await link.save();
+            return savedResult.toObject();
+        } catch (error) {
             throw error;
         }
     }
@@ -40,7 +42,28 @@ export class LinkStorageModel {
      * @param data {Partial<ILink>}
      * @returns {Promise<Partial<ILink> | null>}
      */
-    async findOne(data: Partial<ILink>): Promise<Partial<ILink> | null> {
-        return this.linkModel.findOne(data);
+    async findOne<ILink>(data: Partial<ILink>): Promise<Partial<ILink> | null> {
+        const result = await this.linkModel.findOne(data).exec();
+        return result ? result.toObject() : null;
+    }
+
+    /**
+     * Remove object from the collection by the given data
+     * @param data {Partial<ILink>}
+     * @returns {Promise<boolean>}
+     */
+    async remove<ILink>(data: Partial<ILink>): Promise<boolean> {
+        const result = await this.linkModel.deleteOne(data).exec();
+        return result.deletedCount === 1;
+    }
+
+    /**
+     * Check if the object exists in the collection
+     * @param data {Partial<ILink>}
+     * @returns {Promise<boolean>}
+     */
+    async exists<ILink>(data: Partial<ILink>): Promise<boolean> {
+        const result = await this.linkModel.exists(data).exec();
+        return !!result;
     }
 }

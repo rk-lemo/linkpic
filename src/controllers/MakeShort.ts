@@ -1,5 +1,4 @@
 import express from 'express';
-import {Mongoose} from 'mongoose';
 import Link from "../logic/Link";
 
 export default class MakeShort {

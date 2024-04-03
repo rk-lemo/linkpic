@@ -6,9 +6,10 @@ enum EEnvironment {
 
 type TConfig = {
     db: {
-        name: string
+        userName: string
         password: string
         appName: string
+        dbName: string
     },
     server: {
         port: number

@@ -1,5 +1,5 @@
 import {ILink} from '../../../src/types/interfaces/db/ILinkStorage';
-import {LinkStorageModel} from '../../../src/models/LinkStorage';
+import {LinkStorageModel} from '../../../src/models/Storage';
 import Connection from '../../../src/db/connection';
 
 describe('This one should properly test LinkStorage logic', () => {
@@ -37,6 +37,24 @@ describe('This one should properly test LinkStorage logic', () => {
             const findOneResult = await LinkStorageInstance.findOne(data);
             expect(findOneResult?.userId).toBe('zz11zz22zz33');
             expect(findOneResult?.short).toBe(data.short);
+        });
+
+        test('it should remove object from the database', async () => {
+            const data: Partial<ILink> = {
+                short: 'zFgH12',
+            }
+            const LinkStorageInstance = new LinkStorageModel();
+            const removeResult = await LinkStorageInstance.remove(data);
+            expect(removeResult).toBe(true);
+        });
+
+        test('it should check if object exists in the database', async () => {
+            const data: Partial<ILink> = {
+             short: 'zFgH12',
+            }
+            const LinkStorageInstance = new LinkStorageModel();
+            const existsResult = await LinkStorageInstance.exists(data);
+            expect(existsResult).toBe(true);
         });
     });
 });

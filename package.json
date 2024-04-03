@@ -5,7 +5,7 @@
   "main": "dist/run.js",
   "scripts": {
     "start": "NODE_CONFIG_DIR=./dist/config/ node dist/run.js",
-    "build": "tsc",
+    "build": "npm run test:unit && npm run test:app && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:app": "NODE_ENV=development mocha --require ts-node/register test/http/*.ts",
     "test:unit": "NODE_ENV=development jest --config jest.config.js"

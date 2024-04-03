@@ -1,8 +1,9 @@
 {
   "db": {
-    "name": "linkpic-admin",
+    "userName": "linkpic-admin",
     "password": "agbGJD1c8TcepmuE",
-    "appName": "Cluster-1"
+    "appName": "Cluster-1",
+    "dbName": "linkpic-db"
   },
   "server": {
     "port": 3000
