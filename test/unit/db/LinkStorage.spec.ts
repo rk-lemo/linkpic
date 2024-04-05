@@ -14,7 +14,7 @@ describe('This one should properly test LinkStorage logic', () => {
                 headers: {
                     'Content-type': 'application/json',
                 },
-                ip: '192.168.0.1',
+                ip: '192.168.0.2',
                 link: {
                     domain: 'google.com',
                     original: '/search?q=hello',
