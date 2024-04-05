@@ -17,7 +17,7 @@ describe('This one should properly test LinkStorage logic', () => {
                 ip: '192.168.0.2',
                 link: {
                     domain: 'google.com',
-                    original: '/search?q=hello',
+                    original: 'https://google.com/search?q=hello',
                     path: '/search',
                     protocol: 'https'
                 },

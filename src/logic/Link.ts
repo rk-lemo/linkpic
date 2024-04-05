@@ -49,10 +49,11 @@ export default class Link {
         this._hash = url.hash || null;
     }
 
-
-
-    //TODO implement method to generate a short link Id based on base62 @kcfz
-    //use this. state to get everything you need to generate the short link
+    /**
+     * Generates a short base62 string of the given length
+     * @param {number} length
+     * @returns {string | Error}
+     */
     makeShort(length: number): string | Error {
         if(length === 0) throw new Error('Cannot transform empty link');
         const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

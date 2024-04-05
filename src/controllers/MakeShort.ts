@@ -4,11 +4,12 @@ import {ILink} from "../types/interfaces/db/ILinkStorage";
 import {LinkStorageModel} from "../models/Storage";
 import Logger from "../util/Logger";
 import {ConfigInstance} from "../config/config";
+import {IGeneralController} from '../types/GeneralController';
 
-export default class MakeShort {
+export default class MakeShort implements IGeneralController{
     async handle(req: express.Request, res: express.Response): Promise<any> {
         try {
-            const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+            const fullUrl = req.body.originalUrl;
             const linkInstance = new Link(fullUrl);
             const shortId = <string>linkInstance.makeShort(7);
 
@@ -20,17 +21,17 @@ export default class MakeShort {
                 userId: "",
                 link: {
                     hash: <string>linkInstance.hash,
-                    path: req.path,
+                    path: <string>linkInstance.path,
                     query: <string>linkInstance.query,
-                    domain: req.hostname,
-                    protocol: req.protocol,
+                    domain: linkInstance.domain,
+                    protocol: linkInstance.protocol,
                     original: fullUrl,
                 }
             };
 
             await new LinkStorageModel().save(linkObject);
 
-            return res.send(linkInstance.protocol + "://" + linkInstance.domain + `:${ConfigInstance.setting?.server.port}/${shortId}`);
+            return res.send(req.protocol + "://" + req.hostname + `:${ConfigInstance.setting?.server.port}/${shortId}`);
 
         } catch (error) { // @ts-ignore
             Logger.error(error?.message);
