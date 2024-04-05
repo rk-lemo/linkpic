@@ -22,7 +22,6 @@ describe('This one should properly test LinkStorage logic', () => {
                     protocol: 'https'
                 },
                 short: 'zFgH12',
-                userId: 'zz11zz22zz33',
             }
             const LinkStorageInstance = new LinkStorageModel();
             const saveResult = await LinkStorageInstance.save(data);
