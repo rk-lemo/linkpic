@@ -9,6 +9,7 @@ import MakeShort from './controllers/MakeShort';
 import {wrap} from './util/RequestWrapper';
 import Logger from './util/Logger';
 import {ConfigInstance} from './config/config';
+import DiscoverAndRedirect from './controllers/DiscoverAndRedirect';
 
 export default class App {
     private dbConnection: Mongoose | null = null;
@@ -34,7 +35,8 @@ export default class App {
         this.container.register({
             dbConnection: awilix.asValue(connection),
             RootController: awilix.asClass(Root),
-            ShortController: awilix.asClass(MakeShort)
+            ShortController: awilix.asClass(MakeShort),
+            DiscoverAndRedirectController: awilix.asClass(DiscoverAndRedirect)
         });
         this.initServer();
     }
@@ -47,6 +49,7 @@ export default class App {
         if (this.isNeedInitServer){
             this.app = express();
             this.app.use(pinoHttp());
+            this.app.use(express.json());
             this.app.use(this.initRouter())
             this.app.listen(ConfigInstance.setting?.server.port, () => {
                 Logger.log(`Server is running on port ${ConfigInstance.setting?.server.port}`);
@@ -61,7 +64,8 @@ export default class App {
     initRouter(): express.Router {
         const router: express.Router = express.Router();
         router.get('/', wrap(this.container.resolve('RootController')));
-        router.get('/short/', wrap(this.container.resolve('ShortController')));
+        router.post('/short/', wrap(this.container.resolve('ShortController')));
+        router.get('/:shortId/', wrap(this.container.resolve('DiscoverAndRedirectController')));
         return router;
     }
 
