@@ -31,7 +31,7 @@ export default class MakeShort implements IGeneralController{
 
             await new LinkStorageModel().save(linkObject);
 
-            return res.send(req.protocol + "://" + req.hostname + `:${ConfigInstance.setting?.server.port}/${shortId}`);
+            return res.json({url: req.protocol + "://" + req.hostname + `:${ConfigInstance.setting?.server.port}/${shortId}`});
 
         } catch (error) { // @ts-ignore
             Logger.error(error?.message);

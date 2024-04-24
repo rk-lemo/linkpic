@@ -2,6 +2,7 @@ import {Mongoose} from 'mongoose';
 import express from 'express';
 import * as awilix from 'awilix';
 import pinoHttp from 'pino-http';
+import cors from 'cors';
 
 import Connection from './db/connection';
 import Root from './controllers/Root';
@@ -48,6 +49,10 @@ export default class App {
     initServer(): void {
         if (this.isNeedInitServer){
             this.app = express();
+            this.app.use(cors({
+                origin: 'http://localhost:3000'
+                }
+            ))
             this.app.use(pinoHttp());
             this.app.use(express.json());
             this.app.use(this.initRouter())
@@ -99,5 +104,6 @@ export default class App {
             this.dbConnection.connection?.close(true);
         }
         Logger.error(signal, error);
+        process.exit(1);
     }
 }

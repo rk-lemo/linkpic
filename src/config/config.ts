@@ -28,7 +28,7 @@ class Config {
     };
 
     init(): void {
-        const environment = process.env.NODE_ENV;
+        const environment = process.env.NODE_ENV || EEnvironment.DEVELOPMENT;
         if (!environment) {
             throw new Error('Environment is not set');
         }
