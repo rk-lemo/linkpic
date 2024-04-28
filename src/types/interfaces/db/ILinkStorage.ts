@@ -5,7 +5,7 @@ export interface ILink  {
     headers?: Object,
     userId?: string,
     link: {
-        hash?: string,
+    hash?: string,
         path?: string,
         query?: string,
         domain?: string,
