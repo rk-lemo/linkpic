@@ -2,6 +2,7 @@ import express from 'express';
 import Logger from "../util/Logger";
 import { IGeneralController } from '../types/GeneralController';
 import { LinkStorageModel } from "../models/LinkStorage";
+import { ILink } from "../types/interfaces/db/ILinkStorage";
 
 export default class DiscoverAndRedirect implements IGeneralController {
     private linkStorageModel: LinkStorageModel;
@@ -12,16 +13,16 @@ export default class DiscoverAndRedirect implements IGeneralController {
 
     async handle(req: express.Request, res: express.Response) {
         try {
-            const shortUrl = req.params.shortUrl;
-            const originalUrl = await this.linkStorageModel.findOne({ short: shortUrl });
+            const shortUrl = req.params.shortId;
+            const originalData = await this.linkStorageModel.findOne<ILink>({ short: shortUrl });
 
-            if (originalUrl) {
-                return res.redirect(originalUrl.toString());
+            if (originalData?.link?.original) {
+                return res.redirect(originalData.link.original);
             } else {
                 return res.sendStatus(404);
             }
 
-        } catch (error: any) { // Зміна типу 'error' на 'any' або 'unknown'
+        } catch (error: any) {
             if (error instanceof Error) {
                 Logger.error(error.message);
             } else {
