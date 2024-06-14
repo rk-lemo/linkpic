@@ -11,6 +11,7 @@ import {wrap} from './util/RequestWrapper';
 import Logger from './util/Logger';
 import {ConfigInstance} from './config/config';
 import DiscoverAndRedirect from './controllers/DiscoverAndRedirect';
+import Register from './controllers/user/Register';
 
 export default class App {
     private dbConnection: Mongoose | null = null;
@@ -36,6 +37,7 @@ export default class App {
         this.container.register({
             dbConnection: awilix.asValue(connection),
             RootController: awilix.asClass(Root),
+            RegisterController: awilix.asClass(Register),
             ShortController: awilix.asClass(MakeShort),
             DiscoverAndRedirectController: awilix.asClass(DiscoverAndRedirect)
         });
@@ -70,6 +72,7 @@ export default class App {
         const router: express.Router = express.Router();
         router.get('/', wrap(this.container.resolve('RootController')));
         router.post('/short/', wrap(this.container.resolve('ShortController')));
+        router.post('/register/', wrap(this.container.resolve('RegisterController')));
         router.get('/:shortId/', wrap(this.container.resolve('DiscoverAndRedirectController')));
         return router;
     }
