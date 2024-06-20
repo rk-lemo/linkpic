@@ -13,8 +13,10 @@ type TConfig = {
     },
     server: {
         port: number
+    },
+    jwt: {
+        secret: string
     }
-
 }
 
 class Config {
