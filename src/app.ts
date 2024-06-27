@@ -12,6 +12,7 @@ import Logger from './util/Logger';
 import {ConfigInstance} from './config/config';
 import DiscoverAndRedirect from './controllers/DiscoverAndRedirect';
 import Register from './controllers/user/Register';
+import Authorize from "./controllers/user/Authorize";
 
 export default class App {
     private dbConnection: Mongoose | null = null;
@@ -39,7 +40,8 @@ export default class App {
             RootController: awilix.asClass(Root),
             RegisterController: awilix.asClass(Register),
             ShortController: awilix.asClass(MakeShort),
-            DiscoverAndRedirectController: awilix.asClass(DiscoverAndRedirect)
+            DiscoverAndRedirectController: awilix.asClass(DiscoverAndRedirect),
+            AuthorizeController: awilix.asClass(Authorize)
         });
         this.initServer();
     }
@@ -52,7 +54,7 @@ export default class App {
         if (this.isNeedInitServer){
             this.app = express();
             this.app.use(cors({
-                origin: 'http://localhost:3001'
+                origin: 'http://localhost:3000'
                 }
             ))
             this.app.use(pinoHttp());
@@ -74,6 +76,7 @@ export default class App {
         router.post('/short/', wrap(this.container.resolve('ShortController')));
         router.post('/register/', wrap(this.container.resolve('RegisterController')));
         router.get('/:shortId/', wrap(this.container.resolve('DiscoverAndRedirectController')));
+        router.post('/authorize/', wrap(this.container.resolve('AuthorizeController')));
         return router;
     }
 
