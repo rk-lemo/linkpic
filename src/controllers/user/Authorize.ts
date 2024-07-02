@@ -10,10 +10,12 @@ export default class Authorize implements IGeneralController{
         try{
             const User = new UserLogic();
             const email: string = req.body.email;
+            const password: string = req.body.password;
+
             if(!email){
                 return res.status(400).send('Email is required');
             }
-            const password: string = req.body.password;
+
             if(!password){
                 return res.status(400).send('Password is required');
             }

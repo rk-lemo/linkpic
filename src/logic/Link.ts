@@ -51,7 +51,6 @@ export default class Link {
 
 
 
-    //TODO implement method to generate a short link Id based on base62 @kcfz
     //use this. state to get everything you need to generate the short link
     makeShort(length: number): string | Error {
         if(length === 0) throw new Error('Cannot transform empty link');
